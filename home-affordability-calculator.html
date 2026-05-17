@@ -37,6 +37,10 @@
   .brand-bar {
     background: var(--ink);
     padding: 12px 40px;
+  }
+  .brand-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -61,6 +65,10 @@
     background: #F9FAFB;
     border-bottom: 1px solid var(--rule);
     padding: 40px 40px 32px;
+  }
+  .tool-hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
   }
   .tool-category {
     display: inline-flex;
@@ -391,14 +399,18 @@
 <body>
 
 <div class="brand-bar">
-  <span class="brand-name">The Honest Dollar</span>
-  <span class="brand-tag">Free Tools</span>
+  <div class="brand-bar-inner">
+    <span class="brand-name">The Honest Dollar</span>
+    <span class="brand-tag">Free Tools</span>
+  </div>
 </div>
 
 <div class="tool-hero">
-  <div class="tool-category">Home Buying</div>
-  <h1>Can I Afford This House?</h1>
-  <p class="tool-desc">Enter your numbers and see exactly what home price keeps you inside safe limits at three different thresholds. Most calculators tell you what a bank will approve. This one tells you the truth.</p>
+  <div class="tool-hero-inner">
+    <div class="tool-category">Home Buying</div>
+    <h1>Can I Afford This House?</h1>
+    <p class="tool-desc">Enter your numbers and see exactly what home price keeps you inside safe limits at three different thresholds. Most calculators tell you what a bank will approve. This one tells you the truth.</p>
+  </div>
 </div>
 
 <div class="main">
@@ -794,12 +806,14 @@
 </script>
 <!-- STICKY NUDGE BAR -->
 <div class="sticky-nudge" id="sticky-nudge">
-  <div class="sticky-nudge-text">
-    <strong>Get a new free tool every two weeks.</strong> The Honest Dollar newsletter -- no fluff, just honest math.
-  </div>
-  <div class="sticky-nudge-right">
-    <a href="https://thehonestdollar.beehiiv.com/subscribe" target="_blank" class="sticky-nudge-btn">Subscribe Free</a>
-    <button class="sticky-nudge-dismiss" onclick="dismissNudge()" aria-label="Dismiss">&#x2715;</button>
+  <div class="sticky-nudge-inner">
+    <div class="sticky-nudge-text">
+      <strong>Get a new free tool every two weeks.</strong> The Honest Dollar newsletter -- no fluff, just honest math.
+    </div>
+    <div class="sticky-nudge-right">
+      <a href="https://thehonestdollar.beehiiv.com/subscribe" target="_blank" class="sticky-nudge-btn">Subscribe Free</a>
+      <button class="sticky-nudge-dismiss" onclick="dismissNudge()" aria-label="Dismiss">&#x2715;</button>
+    </div>
   </div>
 </div>
 
