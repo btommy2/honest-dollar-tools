@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Can I Afford This House? | The Honest Dollar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FFFFFF;
+    --ink: #111827;
+    --ink-mid: #374151;
+    --muted: #6B7280;
+    --rule: #E5E7EB;
+    --green: #2D6A4F;
+    --green-light: #D4EFDF;
+    --yellow: #D97706;
+    --yellow-light: #FEF3CD;
+    --red: #DC2626;
+    --red-light: #FEE2E2;
+    --accent: #0C4A6E;
+    --card-bg: #FFFFFF;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* BRAND BAR - consistent across all tools */
+  .brand-bar {
+    background: var(--ink);
+    padding: 12px 40px;
+  }
+  .brand-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+  }
+  .brand-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: #9CA3AF;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* TOOL HERO - consistent across all tools */
+  .tool-hero {
+    background: #F9FAFB;
+    border-bottom: 1px solid var(--rule);
+    padding: 40px 40px 32px;
+  }
+  .tool-hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .tool-hero-inner .tool-desc {
+    max-width: 600px;
+  }
+  .tool-category {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: var(--green-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .tool-hero h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 12px;
+    max-width: 580px;
+  }
+  .tool-desc {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 520px;
+  }
+
+  /* LAYOUT */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 40px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  @media (max-width: 760px) {
+    .main { grid-template-columns: 1fr; padding: 24px 20px 0; gap: 32px; }
+    .brand-bar { padding: 12px 20px; }
+    .tool-hero { padding: 28px 20px 24px; }
+    .footer-note { padding: 20px 20px 0; }
+  }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* TOGGLE */
+  .toggle-row {
+    display: flex;
+    margin-bottom: 24px;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #F9FAFB;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.18s;
+  }
+  .toggle-btn.active {
+    background: var(--ink);
+    color: #FFFFFF;
+  }
+
+  /* INPUTS */
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+    margin-bottom: 7px;
+  }
+  .input-wrap { position: relative; }
+  .input-wrap .prefix {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .input-wrap input {
+    width: 100%;
+    padding: 11px 12px 11px 28px;
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    background: var(--card-bg);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    transition: border-color 0.18s, box-shadow 0.18s;
+    -moz-appearance: textfield;
+  }
+  .input-wrap input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(12,74,110,0.08);
+  }
+  .input-wrap input::-webkit-outer-spin-button,
+  .input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .field-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+    line-height: 1.5;
+  }
+
+  /* RESULTS */
+  .results-panel { display: flex; flex-direction: column; gap: 12px; }
+
+  .threshold-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px 20px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .threshold-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-yellow { background: var(--yellow-light); color: var(--yellow); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+
+  .card-home-price {
+    font-family: 'Sora', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 5px;
+    letter-spacing: -0.02em;
+  }
+  .card-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .card-divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 12px 0;
+  }
+  .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .stat-val { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+  .status-bar {
+    height: 3px;
+    border-radius: 2px;
+    background: var(--rule);
+    margin-top: 14px;
+    overflow: hidden;
+  }
+  .status-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* VERDICT */
+  .verdict-box {
+    background: var(--ink);
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .verdict-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-bottom: 10px;
+  }
+  .verdict-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #F3F4F6;
+  }
+  .verdict-text strong { font-weight: 600; color: #FFFFFF; }
+
+  /* DTI WARNING */
+  .dti-warning {
+    background: var(--yellow-light);
+    border: 1.5px solid #FCD34D;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #92400E;
+    line-height: 1.5;
+    display: none;
+  }
+
+  /* EMAIL CAPTURE */
+  .email-capture-box {
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 24px 20px;
+    text-align: center;
+    background: #F9FAFB;
+  }
+  .email-capture-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .email-capture-heading {
+    font-family: 'Sora', sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .email-capture-sub {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    max-width: 290px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .email-capture-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    padding: 12px 26px;
+    border-radius: 6px;
+    transition: background 0.18s;
+    margin-bottom: 10px;
+  }
+  .email-capture-btn:hover { background: #1F2937; }
+  .email-capture-fine { font-size: 11px; color: var(--muted); }
+
+  /* FOOTER */
+  .footer-note {
+    max-width: 1100px;
+    margin: 32px auto 0;
+    padding: 20px 40px 0;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .threshold-card { animation: fadeUp 0.35s ease both; }
+  .threshold-card:nth-child(1) { animation-delay: 0.04s; }
+  .threshold-card:nth-child(2) { animation-delay: 0.10s; }
+  .threshold-card:nth-child(3) { animation-delay: 0.16s; }
+  .verdict-box { animation: fadeUp 0.35s ease 0.22s both; }
+  .email-capture-box { animation: fadeUp 0.35s ease 0.28s both; }
+</style>
+</head>
+<body>
+
+<div class="brand-bar">
+  <div class="brand-bar-inner">
+    <span class="brand-name">The Honest Dollar</span>
+    <span class="brand-tag">Free Tools</span>
+  </div>
+</div>
+
+<div class="tool-hero">
+  <div class="tool-hero-inner">
+    <div class="tool-category">Home Buying</div>
+    <h1>Can I Afford This House?</h1>
+    <p class="tool-desc">Enter your numbers and see exactly what home price keeps you inside safe limits at three different thresholds. Most calculators tell you what a bank will approve. This one tells you the truth.</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="inputs-col">
+    <div class="section-label">Your Finances</div>
+
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="btn-takehome" onclick="setIncomeMode('takehome')">Take-Home Pay</button>
+      <button class="toggle-btn" id="btn-gross" onclick="setIncomeMode('gross')">Gross Income</button>
+    </div>
+
+    <div class="field">
+      <label id="income-label">Annual Take-Home Pay</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="income" placeholder="78,000" oninput="calc()" />
+      </div>
+      <div class="field-hint" id="income-hint">After taxes and deductions. We will divide by 12 automatically.</div>
+    </div>
+
+    <div class="field">
+      <label>Down Payment</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="downpayment" placeholder="40,000" oninput="calc()" />
+      </div>
+      <div class="field-hint">Typically 3 to 20% of the purchase price.</div>
+    </div>
+
+    <div class="field">
+      <label>Interest Rate</label>
+      <div class="input-wrap">
+        <span class="prefix" style="left:10px;font-size:13px;">%</span>
+        <input type="number" id="rate" placeholder="6.8" step="0.1" oninput="calc()" />
+      </div>
+      <div class="field-hint">Current 30-year fixed average is around 6.8%.</div>
+    </div>
+
+    <div class="field">
+      <label>Monthly Debts (car, student loans, etc.)</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="debts" placeholder="400" oninput="calc()" />
+      </div>
+      <div class="field-hint">Minimum monthly payments only.</div>
+    </div>
+
+    <div class="field">
+      <label>Est. Property Tax (annual)</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="propertytax" placeholder="3,600" oninput="calc()" />
+      </div>
+      <div class="field-hint">Typically 0.5 to 1.5% of home value per year.</div>
+    </div>
+
+    <div class="field">
+      <label>HOA + Insurance (monthly)</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="extras" placeholder="200" oninput="calc()" />
+      </div>
+      <div class="field-hint">HOA fees and homeowner's insurance combined.</div>
+    </div>
+
+    <div class="field">
+      <label>PMI Rate <span class="label-optional">(skip if putting 20%+ down)</span></label>
+      <div class="input-wrap">
+        <span class="prefix" style="left:10px;font-size:13px;">%</span>
+        <input type="number" id="pmi" placeholder="0.85" step="0.05" oninput="calc()" />
+      </div>
+      <div class="field-hint">Typically 0.5 to 1.5% of the loan per year. The bank adds this automatically when your down payment is under 20%. Most first-time buyers pay it.</div>
+    </div>
+
+    <div class="dti-warning" id="dti-warning">
+      Your existing debt payments are eating a significant chunk of your income. Even at conservative thresholds, adding a mortgage here could put you one emergency away from real trouble.
+    </div>
+  </div>
+
+  <div class="results-col">
+    <div class="section-label">Your Affordability Breakdown</div>
+
+    <div class="results-panel">
+
+      <div class="threshold-card">
+        <div class="card-top">
+          <div class="card-label">Conservative · 25% Rule</div>
+          <div class="card-badge badge-green">Recommended</div>
+        </div>
+        <div class="card-home-price" id="price-25">--</div>
+        <div class="card-sub" id="sub-25">Enter your info to see results</div>
+        <hr class="card-divider"/>
+        <div class="card-stats">
+          <div class="stat-item">
+            <div class="stat-label">Max Payment</div>
+            <div class="stat-val" id="maxpmt-25">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Principal + Interest</div>
+            <div class="stat-val" id="pi-25">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">% of Take-Home</div>
+            <div class="stat-val" id="pct-25">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Loan Amount</div>
+            <div class="stat-val" id="loan-25">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Down Payment %</div>
+            <div class="stat-val" id="dp-25">--</div>
+          </div>
+        </div>
+        <div id="pmi-note-25" class="pmi-note"></div>
+        <div class="status-bar"><div class="status-bar-fill" id="bar-25" style="width:0%;background:#2D6A4F;"></div></div>
+      </div>
+
+      <div class="threshold-card">
+        <div class="card-top">
+          <div class="card-label">Moderate · 28% Rule</div>
+          <div class="card-badge badge-yellow">Lender Standard</div>
+        </div>
+        <div class="card-home-price" id="price-28">--</div>
+        <div class="card-sub" id="sub-28">Enter your info to see results</div>
+        <hr class="card-divider"/>
+        <div class="card-stats">
+          <div class="stat-item">
+            <div class="stat-label">Max Payment</div>
+            <div class="stat-val" id="maxpmt-28">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Principal + Interest</div>
+            <div class="stat-val" id="pi-28">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">% of Take-Home</div>
+            <div class="stat-val" id="pct-28">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Loan Amount</div>
+            <div class="stat-val" id="loan-28">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Down Payment %</div>
+            <div class="stat-val" id="dp-28">--</div>
+          </div>
+        </div>
+        <div id="pmi-note-28" class="pmi-note"></div>
+        <div class="status-bar"><div class="status-bar-fill" id="bar-28" style="width:0%;background:#D97706;"></div></div>
+      </div>
+
+      <div class="threshold-card">
+        <div class="card-top">
+          <div class="card-label">Aggressive · 30% Rule</div>
+          <div class="card-badge badge-red">Stretched</div>
+        </div>
+        <div class="card-home-price" id="price-30">--</div>
+        <div class="card-sub" id="sub-30">Enter your info to see results</div>
+        <hr class="card-divider"/>
+        <div class="card-stats">
+          <div class="stat-item">
+            <div class="stat-label">Max Payment</div>
+            <div class="stat-val" id="maxpmt-30">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Principal + Interest</div>
+            <div class="stat-val" id="pi-30">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">% of Take-Home</div>
+            <div class="stat-val" id="pct-30">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Loan Amount</div>
+            <div class="stat-val" id="loan-30">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Down Payment %</div>
+            <div class="stat-val" id="dp-30">--</div>
+          </div>
+        </div>
+        <div id="pmi-note-30" class="pmi-note"></div>
+        <div class="status-bar"><div class="status-bar-fill" id="bar-30" style="width:0%;background:#DC2626;"></div></div>
+      </div>
+
+      <div class="verdict-box">
+        <div class="verdict-label">The Honest Verdict</div>
+        <div class="verdict-text" id="verdict-text">
+          Fill in your numbers above and you will get a straight answer on what you can actually afford. Not what a bank will approve you for.
+        </div>
+      </div>
+
+      <div class="email-capture-box">
+        <div class="email-capture-eyebrow">The Honest Dollar</div>
+        <div class="email-capture-heading">Get a new free tool every two weeks.</div>
+        <div class="email-capture-sub">Practical personal finance tools and one honest insight, straight to your inbox. No fluff.</div>
+        <a href="https://thehonestdollar.beehiiv.com/subscribe" target="_blank" class="email-capture-btn">Subscribe Free</a>
+        <div class="email-capture-fine">Free forever. No spam. Unsubscribe anytime.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  Note: This tool is for educational purposes only and does not constitute financial advice. Results are estimates based on a 30-year fixed mortgage. Actual loan eligibility depends on credit score, lender criteria, and local market conditions. Always consult a licensed mortgage professional before making a home purchase decision. Built by Braden Tomlinson / The Honest Dollar.
+</div>
+
+<script>
+  let incomeMode = 'takehome';
+
+  function setIncomeMode(mode) {
+    incomeMode = mode;
+    document.getElementById('btn-takehome').classList.toggle('active', mode === 'takehome');
+    document.getElementById('btn-gross').classList.toggle('active', mode === 'gross');
+    const lbl = document.getElementById('income-label');
+    const hint = document.getElementById('income-hint');
+    if (mode === 'takehome') {
+      lbl.textContent = 'Annual Take-Home Pay';
+      hint.textContent = 'After taxes and deductions. We will divide by 12 automatically.';
+    } else {
+      lbl.textContent = 'Annual Gross Income';
+      hint.textContent = 'Pre-tax income. We will estimate take-home at 72% and divide by 12.';
+    }
+    calc();
+  }
+
+  function fmt(n) {
+    if (n === null || isNaN(n) || n < 0) return '--';
+    return '$' + Math.round(n).toLocaleString();
+  }
+
+  function loanFromPI(pi, rate, n) {
+    if (rate === 0) return pi * n;
+    const r = rate / 100 / 12;
+    const factor = Math.pow(1 + r, n);
+    return pi * (factor - 1) / (r * factor);
+  }
+
+  function calcPMI(loanAmt, pmiRate) {
+    if (!pmiRate || pmiRate <= 0 || loanAmt <= 0) return 0;
+    return (loanAmt * (pmiRate / 100)) / 12;
+  }
+
+  function calc() {
+    let rawIncome = parseFloat(document.getElementById('income').value) || 0;
+    const downpayment = parseFloat(document.getElementById('downpayment').value) || 0;
+    const rate = parseFloat(document.getElementById('rate').value) || 6.8;
+    const debts = parseFloat(document.getElementById('debts').value) || 0;
+    const propTaxAnnual = parseFloat(document.getElementById('propertytax').value) || 0;
+    const extras = parseFloat(document.getElementById('extras').value) || 0;
+    const pmiRate = parseFloat(document.getElementById('pmi').value) || 0;
+
+    let takeHome = incomeMode === 'gross' ? (rawIncome * 0.72) / 12 : rawIncome / 12;
+
+    const n = 360;
+    const baseFixed = (propTaxAnnual / 12) + extras;
+
+    const thresholds = [
+      { id: '25', pct: 0.25, barColor: '#2D6A4F' },
+      { id: '28', pct: 0.28, barColor: '#D97706' },
+      { id: '30', pct: 0.30, barColor: '#DC2626' },
+    ];
+
+    document.getElementById('dti-warning').style.display =
+      (takeHome > 0 && debts / takeHome > 0.15) ? 'block' : 'none';
+
+    thresholds.forEach(t => {
+      const maxTotalHousing = takeHome * t.pct;
+
+      // Solve for loan iteratively since PMI depends on loan amount
+      // Start with no PMI estimate, then refine
+      let loanAmt = 0;
+      let pmiMonthly = 0;
+      for (let i = 0; i < 5; i++) {
+        pmiMonthly = calcPMI(loanAmt, pmiRate);
+        const fixedMonthly = baseFixed + pmiMonthly;
+        const maxPI = maxTotalHousing - fixedMonthly;
+        loanAmt = maxPI > 0 ? loanFromPI(maxPI, rate, n) : 0;
+      }
+
+      const fixedMonthly = baseFixed + pmiMonthly;
+      const maxPI = maxTotalHousing - fixedMonthly;
+      const homePrice = loanAmt + downpayment;
+      const dpPct = homePrice > 0 ? (downpayment / homePrice) * 100 : 0;
+      const needsPMI = dpPct < 20 && dpPct > 0;
+
+      const priceEl   = document.getElementById('price-'    + t.id);
+      const subEl     = document.getElementById('sub-'      + t.id);
+      const pmtEl     = document.getElementById('maxpmt-'   + t.id);
+      const piEl      = document.getElementById('pi-'       + t.id);
+      const pctEl     = document.getElementById('pct-'      + t.id);
+      const loanEl    = document.getElementById('loan-'     + t.id);
+      const dpEl      = document.getElementById('dp-'       + t.id);
+      const barEl     = document.getElementById('bar-'      + t.id);
+      const pmiNoteEl = document.getElementById('pmi-note-' + t.id);
+
+      if (takeHome <= 0) {
+        [priceEl, pmtEl, piEl, pctEl, loanEl, dpEl].forEach(el => el.textContent = '--');
+        subEl.textContent = 'Enter your info to see results';
+        if (pmiNoteEl) pmiNoteEl.textContent = '';
+        barEl.style.width = '0%';
+        return;
+      }
+
+      priceEl.textContent = homePrice > 0 ? fmt(homePrice) : 'N/A';
+      subEl.textContent   = homePrice > 0
+        ? 'Max home price with ' + fmt(downpayment) + ' down at ' + rate + '%'
+        : 'Fixed costs exceed this threshold';
+      pmtEl.textContent  = fmt(maxTotalHousing);
+      piEl.textContent   = maxPI > 0 ? fmt(maxPI) : '--';
+      pctEl.textContent  = (t.pct * 100).toFixed(0) + '% of take-home';
+      loanEl.textContent = loanAmt > 0 ? fmt(loanAmt) : '--';
+      dpEl.textContent   = homePrice > 0 ? dpPct.toFixed(1) + '%' : '--';
+
+      // PMI note
+      if (pmiNoteEl) {
+        if (pmiMonthly > 0) {
+          pmiNoteEl.textContent = 'Includes ' + fmt(pmiMonthly) + '/mo PMI. Drops off when you reach 20% equity.';
+        } else if (needsPMI && pmiRate === 0) {
+          pmiNoteEl.textContent = 'Your down payment is under 20%. Add your PMI rate above for a more accurate number.';
+          pmiNoteEl.style.color = 'var(--yellow)';
+        } else {
+          pmiNoteEl.textContent = '';
+        }
+      }
+
+      barEl.style.width      = Math.min(100, maxPI > 0 ? (maxPI / maxTotalHousing) * 100 : 0) + '%';
+      barEl.style.background = t.barColor;
+    });
+
+    // Pass pmiRate and downpayment to verdict for context
+    updateVerdict(takeHome, debts, downpayment, rate, baseFixed, n, pmiRate);
+  }
+
+  function updateVerdict(takeHome, debts, downpayment, rate, fixedMonthly, n, pmiRate) {
+    const el = document.getElementById('verdict-text');
+    if (takeHome <= 0) {
+      el.innerHTML = 'Fill in your numbers above and you will get a straight answer on what you can actually afford. Not what a bank will approve you for.';
+      return;
+    }
+
+    const max25PI = takeHome * 0.25 - fixedMonthly;
+    const home25  = (max25PI > 0 ? loanFromPI(max25PI, rate, n) : 0) + downpayment;
+    const debtPct = debts / takeHome;
+    const downPct = downpayment / (home25 || 1);
+    let text = '';
+
+    if (debtPct > 0.20) {
+      text = 'Your existing debt load is <strong>' + (debtPct * 100).toFixed(0) + '% of take-home pay</strong>. That is the real problem right now. Pay down those obligations before adding a mortgage. One unexpected expense on top of this puts your finances at serious risk.';
+    } else if (downPct < 0.03) {
+      text = 'You are light on the down payment. Even a <strong>3% down FHA loan</strong> on a ' + fmt(home25) + ' home requires ' + fmt(home25 * 0.03) + ' down, plus closing costs of roughly 2 to 5%. Build that cushion first.';
+    } else if (downPct < 0.20 && pmiRate === 0) {
+      text = 'Your down payment is under 20% of this home price. That means <strong>PMI applies</strong> -- typically 0.5 to 1.5% of your loan per year added to your monthly payment. Enter your PMI rate above to see the real number.';
+    } else if (home25 > 600000) {
+      text = 'At the <strong>25% rule, you can afford up to ' + fmt(home25) + '</strong>. That is a healthy budget. The bigger risk is not the payment itself. Watch out for lifestyle creep and make sure you are not pulling back on retirement contributions to hit that price point.';
+    } else if (home25 > 0) {
+      text = 'Stick to the <strong>25% rule: ' + fmt(home25) + '</strong>. That is a maximum, not a target. Budget 1% of home value per year for maintenance, expect property taxes to rise, and remember that owning always costs more than just the mortgage payment.';
+    } else {
+      text = 'Your fixed housing costs already exceed 25% of take-home pay. You need more income, a larger down payment, or lower fixed cost targets before this math works in your favor.';
+    }
+
+    el.innerHTML = text;
+  }
+
+  // STICKY NUDGE
+  let nudgeDismissed = false;
+  let nudgeShown = false;
+
+  function showNudge() {
+    if (nudgeDismissed || nudgeShown) return;
+    nudgeShown = true;
+    document.getElementById('sticky-nudge').classList.add('visible');
+  }
+
+  function dismissNudge() {
+    nudgeDismissed = true;
+    document.getElementById('sticky-nudge').classList.remove('visible');
+  }
+
+  // Attach nudge trigger to all inputs
+  document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('input', function() {
+      if (this.value && parseFloat(this.value) > 0) showNudge();
+    });
+  });
+
+
+  calc();
+</script>
+<!-- STICKY NUDGE BAR -->
+<div class="sticky-nudge" id="sticky-nudge">
+  <div class="sticky-nudge-inner">
+    <div class="sticky-nudge-text">
+      <strong>Get a new free tool every two weeks.</strong> The Honest Dollar newsletter -- no fluff, just honest math.
+    </div>
+    <div class="sticky-nudge-right">
+      <a href="https://thehonestdollar.beehiiv.com/subscribe" target="_blank" class="sticky-nudge-btn">Subscribe Free</a>
+      <button class="sticky-nudge-dismiss" onclick="dismissNudge()" aria-label="Dismiss">&#x2715;</button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
